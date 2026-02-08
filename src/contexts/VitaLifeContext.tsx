@@ -13,6 +13,7 @@ import {
   inferRoutineEnergy,
   generateRoutineCoachFeedback,
 } from "@/lib/routine-coach";
+import type { DietContext as DietContextType } from "@/lib/diet-questions";
 
 // ─── Shared state types ───
 
@@ -72,6 +73,8 @@ type VitaLifeValue = {
   setTodayFromCheckin: (data: { mood: Mood; energy: Energy; stress: Stress }) => void;
   updateRoutineFromRoutinePage: (updates: Partial<RoutineContextType>) => void;
   leaveRoutinePage: () => void;
+  dietContext: DietContextType | null;
+  setDietContext: (ctx: DietContextType) => void;
 };
 
 const VitaLifeContext = createContext<VitaLifeValue | null>(null);
@@ -96,6 +99,7 @@ export function VitaLifeProvider({ children }: { children: ReactNode }) {
   const [coachMemory, setCoachMemory] = useState<CoachMemory>({});
   const [routineContext, setRoutineContext] = useState<RoutineContextType>(DEFAULT_ROUTINE_CONTEXT);
   const [routineCoachMessage, setRoutineCoachMessage] = useState<string | undefined>(undefined);
+  const [dietContext, setDietContext] = useState<DietContextType | null>(null);
 
   useEffect(() => {
     const out = generateRoutineCoachFeedback(routineContext);
@@ -191,6 +195,8 @@ export function VitaLifeProvider({ children }: { children: ReactNode }) {
     setTodayFromCheckin,
     updateRoutineFromRoutinePage,
     leaveRoutinePage,
+    dietContext,
+    setDietContext,
   };
 
   return (

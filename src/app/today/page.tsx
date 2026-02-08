@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import BottomNav from "@/components/BottomNav";
+import Link from "next/link";
 import {
   generateTodayCoachOutput,
   type TodayContext as TodayContextType,
@@ -409,6 +410,14 @@ export default function TodayPage() {
           onSubmit={(data) => setTodayFromCheckin(data)}
         />
 
+        <Link
+          href="/diet"
+          className="text-[13px]"
+          style={{ color: tokens.textMuted }}
+        >
+          راهنمای تغذیه‌ی قابل زندگی →
+        </Link>
+
         {/* [D] Today Focus */}
         <section className="flex flex-col gap-4">
           {/* ⭐ Main Task */}
@@ -449,6 +458,21 @@ export default function TodayPage() {
             </div>
           </div>
         </section>
+
+        {/* کارت پیشنهاد خوردن امروز — لینک به صفحهٔ کامل */}
+        <Link href="/food-today" className="block">
+          <section
+            className="rounded-[20px] border p-4 transition-opacity hover:opacity-95"
+            style={{ borderColor: tokens.border, backgroundColor: tokens.bg }}
+          >
+            <h3 className="flex items-center gap-2 text-sm font-medium" style={{ color: tokens.textPrimary }}>
+              🍽️ پیشنهاد خوردن امروز
+            </h3>
+            <p className="mt-1 text-[13px]" style={{ color: tokens.textMuted }}>
+              بر اساس حالت امروزت، چند پیشنهاد ساده
+            </p>
+          </section>
+        </Link>
 
         {/* [E] Gentle Progress — از Coach، بدون عدد */}
         <p
