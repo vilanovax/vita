@@ -42,6 +42,16 @@ const SECOND_MESSAGE: ChatMessage = {
   time: "۱۰:۳۰",
 };
 
+const FOLLOW_UP_QUESTIONS = [
+  "دوست داری امروز آروم‌تر پیش بریم؟",
+  "می‌خوای یه پیشنهاد خیلی کوچیک بدم یا نه؟",
+  "همین کافیه یا دوست داری بیشتر حرف بزنیم؟",
+];
+
+function getRandomFollowUp(): string {
+  return FOLLOW_UP_QUESTIONS[Math.floor(Math.random() * FOLLOW_UP_QUESTIONS.length)];
+}
+
 export default function ChatPage() {
   const { today, routineContext, applyIntentImpact, setLastCoachMessage } = useVitaLife();
   const initialMessages = useMemo<ChatMessage[]>(
@@ -62,7 +72,7 @@ export default function ChatPage() {
   const [isSending, setIsSending] = useState(false);
 
   const sendUserMessage = useCallback(
-    (text: string) => {
+    (text: string, fromQuickReply?: boolean) => {
       const trimmed = text.trim();
       if (!trimmed || isSending) return;
 
@@ -78,14 +88,21 @@ export default function ChatPage() {
       const intent = detectIntent(trimmed);
       applyIntentImpact(intent);
 
+      const isShortOrQuick = fromQuickReply || trimmed.length < 25;
+
       setIsSending(true);
       setTimeout(() => {
-        const coachText = generateCoachReply(trimmed);
+        let coachText = generateCoachReply(trimmed);
+        if (isShortOrQuick && !coachText.startsWith("می‌فهمم")) {
+          coachText = `می‌فهمم 🌱\n\n${coachText}`;
+        }
+        const followUp = getRandomFollowUp();
+        const fullText = `${coachText}\n\n${followUp}`;
         setLastCoachMessage(coachText);
         const coachMessage: ChatMessage = {
           id: genId(),
           sender: "coach",
-          text: coachText,
+          text: fullText,
           time: getMockTime(),
         };
         setMessages((prev) => [...prev, coachMessage]);
@@ -101,7 +118,7 @@ export default function ChatPage() {
 
   const handleQuickReply = useCallback(
     (text: string) => {
-      sendUserMessage(text);
+      sendUserMessage(text, true);
     },
     [sendUserMessage]
   );

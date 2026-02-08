@@ -249,7 +249,7 @@ export default function RoutinePage() {
         <RoutineCard
           emoji="🌅"
           title="روتین صبح"
-          subtitle="برای شروع آروم روز"
+          subtitle="برای روزهایی که می‌خوای آروم شروع کنی"
           coreLabel="کار اصلی صبح"
           coreTaskText="یک لیوان آب بنوش"
           coreDone={state.morningCore}
@@ -264,7 +264,7 @@ export default function RoutinePage() {
         <RoutineCard
           emoji="🌙"
           title="روتین شب"
-          subtitle="برای جمع‌کردن روز"
+          subtitle="مخصوص وقتی که ذهنت شلوغه"
           coreLabel="کار اصلی شب"
           coreTaskText="گوشی رو کنار بذار (۳۰ دقیقه قبل خواب)"
           coreDone={state.nightCore}

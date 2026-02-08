@@ -269,6 +269,12 @@ const CONTEXT_CHIP_LABELS: Record<Mood, string> = {
   good: "⚡ روز پرانرژی",
 };
 
+const MICRO_REFLECTION_LINES = [
+  "🌿 دیروز همین که توجه کردی، کافی بود",
+  "دیروز ساده گذشت — و این اشکالی نداره",
+  "استمرار یعنی همین برگشتن‌های کوچیک",
+];
+
 export default function TodayPage() {
   const { today, routineContext, routineCoachMessage, setMainTaskDone, setSecondaryTasksDone, setTodayFromCheckin } = useVitaLife();
   const hasRoutineSignal =
@@ -279,6 +285,12 @@ export default function TodayPage() {
   const [mainTask, setMainTask] = useState(INITIAL_MAIN_TASK);
   const [secondaryTasks, setSecondaryTasks] = useState(INITIAL_SECONDARY);
   const [checkinSheetOpen, setCheckinSheetOpen] = useState(false);
+  const [hasInteractedWithCheckin, setHasInteractedWithCheckin] = useState(false);
+  const [showMainTaskAha, setShowMainTaskAha] = useState(false);
+
+  useEffect(() => {
+    if (checkinSheetOpen) setHasInteractedWithCheckin(true);
+  }, [checkinSheetOpen]);
 
   const completedTasks =
     (mainTask.done ? 1 : 0) + secondaryTasks.filter((t) => t.done).length;
@@ -315,6 +327,10 @@ export default function TodayPage() {
     const next = !mainTask.done;
     setMainTask((p) => ({ ...p, done: next }));
     setMainTaskDone(next);
+    if (next) {
+      setShowMainTaskAha(true);
+      setTimeout(() => setShowMainTaskAha(false), 4000);
+    }
   };
 
   const handleSecondaryToggle = (id: string) => {
@@ -351,6 +367,16 @@ export default function TodayPage() {
           </p>
         </CoachCard>
 
+        {/* Micro-Reflection — یک خط آرام، بدون کارت */}
+        {MICRO_REFLECTION_LINES.length > 0 && (
+          <p
+            className="text-[11px] leading-relaxed"
+            style={{ color: tokens.textMuted }}
+          >
+            {MICRO_REFLECTION_LINES[Math.abs(new Date().getDate()) % MICRO_REFLECTION_LINES.length]}
+          </p>
+        )}
+
         {/* [C] Primary CTA — باز کردن باتم‌شیت چک‌این */}
         <div className="flex flex-col gap-1">
           <button
@@ -367,8 +393,8 @@ export default function TodayPage() {
             <span className="text-xl" aria-hidden>→</span>
           </button>
           <p
-            className="text-[12px]"
-            style={{ color: tokens.textMuted }}
+            className="text-[12px] transition-opacity duration-300"
+            style={{ color: tokens.textMuted, opacity: hasInteractedWithCheckin ? 0.6 : 1 }}
           >
             برنامه‌ی فردا بر اساس همین تنظیم می‌شه
           </p>
@@ -397,6 +423,11 @@ export default function TodayPage() {
               onToggle={handleMainToggle}
               variant="main"
             />
+            {mainTask.done && showMainTaskAha && (
+              <p className="mt-2 text-[13px]" style={{ color: tokens.textMuted }}>
+                همین کافیه 🌱
+              </p>
+            )}
           </div>
 
           {/* Secondary Tasks */}

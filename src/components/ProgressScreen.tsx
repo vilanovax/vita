@@ -1,16 +1,38 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import BottomNav from "./BottomNav";
 
 export default function ProgressScreen() {
+  const [showReturnMessage, setShowReturnMessage] = useState(false);
+
+  useEffect(() => {
+    const key = "vitalife_progress_last_open";
+    const last = typeof window !== "undefined" ? localStorage.getItem(key) : null;
+    const now = Date.now();
+    const oneDay = 24 * 60 * 60 * 1000;
+    if (!last || now - Number(last) > oneDay) {
+      setShowReturnMessage(true);
+    }
+    if (typeof window !== "undefined") localStorage.setItem(key, String(now));
+  }, []);
+
   return (
     <div className="flex min-h-screen flex-col bg-surface-secondary pb-24">
       <header className="border-b border-border bg-surface px-6 py-4">
         <h1 className="text-lg font-semibold text-ink">پیشرفت</h1>
         <p className="text-sm text-ink-muted">بدون استرس — تمرکز روی استمرار</p>
+        <p className="mt-2 text-xs text-ink-subtle">
+          این فقط روند توئه، نه معیار خوب یا بد بودن 🌱
+        </p>
       </header>
 
       <main className="flex flex-1 flex-col gap-6 px-6 py-6">
+        {showReturnMessage && (
+          <p className="text-center text-sm text-ink-muted">
+            برگشتن خودش یک قدمه 🌿
+          </p>
+        )}
         {/* Streak */}
         <section className="rounded-xl border border-border bg-surface p-5 shadow-sm">
           <h2 className="mb-2 text-sm font-semibold text-ink-muted">Streak</h2>
@@ -61,6 +83,11 @@ export default function ProgressScreen() {
 
         <p className="text-center text-sm text-ink-muted">
           انگیزش بدون فشار
+        </p>
+        <p className="text-center text-xs text-ink-subtle leading-relaxed">
+          بعضی هفته‌ها بالا هستن، بعضی پایین.
+          <br />
+          هر دو طبیعی‌ان.
         </p>
       </main>
 
