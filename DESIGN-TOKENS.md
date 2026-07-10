@@ -1,200 +1,81 @@
-# 🎨 VitaLife — Design Tokens (v1.0)
+# Design Tokens — Poker PWA
 
-> **Mood:** Calm · Human · Trust · Light  
-> **الهام:** طبیعت، رشد تدریجی، نفس عمیق 🌱
+Design system for the online poker PWA. Tokens live in `src/app/globals.css` (`:root`). Shared UI primitives live in `src/components/ui/`.
 
-این سند مرجع توکن‌های دیزاین اپ VitaLife است. توکن‌ها در `src/app/globals.css` تعریف و از طریق Tailwind در دسترس‌اند.
+## Color
 
----
+| Token | Value | Usage |
+|-------|-------|--------|
+| `--color-felt-900` … `--color-felt-400` | Green scale | Background, table felt |
+| `--color-gold-500` | `#d9b45b` | Titles, prizes, turn highlight |
+| `--color-gold-300` | `#f0d48a` | Soft gold text |
+| `--color-accent-600` | `#2f9e6f` | Primary actions, success |
+| `--color-accent-400` | `#7ee4b8` | Success text, active pills |
+| `--color-danger-500` | `#e5484d` | Errors, fold, all-in |
+| `--color-danger-300` | `#ff9aa0` | Soft error text |
+| `--color-text` | `#eef2f6` | Body text |
+| `--color-muted` | `#9fb0c0` | Labels, secondary |
+| `--color-rail` | `#5b3b1e` | Table rail |
 
-## ۱. رنگ‌ها (Colors)
+**Legacy aliases** (still supported): `--felt`, `--gold`, `--accent`, `--danger`, `--muted`, `--text`, `--card-border`.
 
-### برند (Brand)
+## Surfaces
 
-| متغیر CSS | مقدار | کلاس Tailwind | کاربرد |
-|-----------|--------|----------------|--------|
-| `--color-brand-primary` | `#0FA36B` | `bg-primary`, `text-primary`, `border-primary` | CTA، انتخاب، موفقیت، focus |
-| `--color-brand-primary-soft` | `#E8F7F1` | `bg-primary-soft` | پس‌زمینه انتخاب‌شده، پیام مربی |
-| `--color-brand-accent` | `#9FE3C8` | `text-primary-accent` | متن روی primary (مثل زیرعنوان CTA) |
-
-### متن (Text / Ink)
-
-| متغیر CSS | مقدار | کلاس Tailwind | کاربرد |
-|-----------|--------|----------------|--------|
-| `--color-text-primary` | `#1C1C1E` | `text-ink` | عنوان‌ها، متن اصلی |
-| `--color-text-secondary` | `#6B6B6F` | `text-ink-muted` | توضیح، زیرعنوان |
-| `--color-text-tertiary` | `#9E9EA2` | `text-ink-subtle` | hint، meta، شمارنده |
-
-**قانون:** Primary فقط برای عنوان‌ها؛ Secondary برای توضیح؛ Tertiary فقط برای hint/meta.
-
-### پس‌زمینه (Surface)
-
-| متغیر CSS | مقدار | کلاس Tailwind | کاربرد |
-|-----------|--------|----------------|--------|
-| `--color-bg-primary` | `#FFFFFF` | `bg-surface` | کارت، هدر، اینپوت |
-| `--color-bg-secondary` | `#F8F9FA` | `bg-surface-secondary` | پس‌زمینه صفحه |
-| `--color-bg-soft` | `#F2F4F5` | `bg-surface-soft` | hover، اینپوت خالی |
-
-### حالت‌ها (States)
-
-| متغیر CSS | مقدار | کلاس Tailwind | کاربرد |
-|-----------|--------|----------------|--------|
-| `--color-success` | `#0FA36B` | `text-success`, `bg-success` | موفقیت |
-| `--color-warning` | `#F2B705` | `text-warning`, `bg-warning` | هشدار |
-| `--color-error` | `#E5533D` | `text-error`, `bg-error` | خطا |
-| `--color-border-default` | `#E6E6E9` | `border-border` | حاشیه پیش‌فرض |
-| `--color-border-muted` | `#EFEFF1` | `border-border-muted` | حاشیه ملایم‌تر |
-| `--color-disabled-bg` | `#E0E0E3` | `bg-disabled` | دکمه/المان غیرفعال |
-| `--color-disabled-text` | `#9E9EA2` | `text-disabled-text` | متن غیرفعال |
-
----
-
-## ۲. تایپوگرافی (Typography)
-
-### فونت
-
-- **Primary:** Vazirmatn  
-- **Fallback:** IRANYekan, Tahoma, system-ui  
-
-### سایز
-
-| متغیر | مقدار | کاربرد |
-|-------|--------|--------|
-| `--font-xs` | 12px | meta، label کوچک |
-| `--font-sm` | 14px | متن ثانویه، توضیح |
-| `--font-base` | 16px | بدنه (پیش‌فرض) |
-| `--font-lg` | 18px | زیرعنوان |
-| `--font-xl` | 22px | عنوان بخش |
-| `--font-2xl` | 26px | عنوان اصلی |
-
-### وزن
-
-| متغیر | مقدار | کاربرد |
-|-------|--------|--------|
-| `--font-regular` | 400 | بدنه |
-| `--font-medium` | 500 | CTA، دکمه |
-| `--font-semibold` | 600 | عنوان‌ها |
-
-**قانون VitaLife:** عنوان → semibold؛ بدنه → regular؛ CTA → medium. هیچ‌وقت bold سنگین استفاده نکن.
-
-### Line height
-
-| متغیر | مقدار | کاربرد |
-|-------|--------|--------|
-| `--line-tight` | 1.3 | عنوان |
-| `--line-normal` | 1.6 | بدنه |
-| `--line-relaxed` | 1.8 | متن طولانی |
-
----
-
-## ۳. فاصله (Spacing)
-
-همه مضرب ۴ یا ۸.
-
-| متغیر | مقدار |
+| Token | Usage |
 |-------|--------|
-| `--space-2` | 4px |
-| `--space-4` | 8px |
-| `--space-6` | 12px |
-| `--space-8` | 16px |
-| `--space-10` | 20px |
-| `--space-12` | 24px |
-| `--space-16` | 32px |
-| `--space-20` | 40px |
-| `--space-24` | 48px |
+| `--surface-inset` | Inputs, inset areas |
+| `--surface-panel` | `.panel` cards |
+| `--surface-elevated` | Headers, modals |
 
-در Tailwind از scale پیش‌فرض (مثلاً `p-4`, `gap-3`) یا مقدار مستقیم `var(--space-8)` می‌توان استفاده کرد.
+## Typography
 
----
+| Token | Size |
+|-------|------|
+| `--text-xs` | 0.68rem |
+| `--text-sm` | 0.78rem |
+| `--text-base` | 0.9rem |
+| `--text-lg` | 1.05rem |
+| `--text-xl` | 1.25rem |
 
-## ۴. شعاع (Radius)
+Font: `--font-body` → Vazirmatn Variable.
 
-| متغیر | مقدار | کلاس Tailwind | کاربرد |
-|-------|--------|----------------|--------|
-| `--radius-sm` | 8px | `rounded-sm` | المان‌های کوچک |
-| `--radius-md` | 12px | `rounded-md` | |
-| `--radius-lg` | 16px | `rounded-lg` | دکمه، اینپوت |
-| `--radius-xl` | 20px | `rounded-xl` | کارت، باکس |
-| `--radius-full` | 999px | `rounded-full` | pill، chip |
+## Spacing & radius
 
-**قانون:** دکمه → `radius-lg`؛ کارت → `radius-xl`؛ pill/chip → `radius-full`.
+`--space-1` (4px) … `--space-6` (24px)  
+`--radius-sm` (8px) … `--radius-xl` (20px)
 
----
+## Components
 
-## ۵. سایه (Shadows)
+| Component | Path | Use for |
+|-----------|------|---------|
+| `PageShell` | `ui/PageShell` | Page wrapper |
+| `PageHeader` | `ui/PageHeader` | Back + title |
+| `Modal` | `ui/Modal` | Dialogs |
+| `Input` / `Select` | `ui/Input` | Forms |
+| `Field` | `ui/Field` | Label + input |
+| `LoadingScreen` | `ui/LoadingScreen` | Async states |
 
-فقط ظریف؛ برای کارت و CTA شناور.
+## CSS classes
 
-| متغیر | مقدار | کاربرد |
-|-------|--------|--------|
-| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.04)` | کارت ملایم |
-| `--shadow-md` | `0 4px 12px rgba(0,0,0,0.06)` | کارت، CTA |
+- **Layout:** `.page-shell`, `.table-shell`, `.lobby`
+- **Cards:** `.panel`, `.meta-pill`, `.empty-state`
+- **Buttons:** `.btn`, `.btn-primary`, `.btn-gold`, `.btn-ghost`, `.btn-danger`
+- **Forms:** `.ui-input`, `.ui-field`, `.ui-label`, `.ui-counter`
+- **Status pages:** `.status-page`, `.status-card`, `.status-title`, `.status-desc`
+- **Table:** `.table-felt`, `.seat-panel`, `.table-pot`
+- **Modals:** `.modal-backdrop`, `.modal-card`
 
-**قانون:** اینپوت‌ها بدون سایه؛ فقط کارت و CTA اصلی.
+## Rules
 
----
+1. Prefer tokens over hardcoded hex in new code.
+2. Use `PageShell` + `PageHeader` on every page.
+3. Use `Modal` for overlays — never nest modals inside animated containers.
+4. Use `LoadingScreen` instead of plain “در حال بارگذاری…”.
+5. Page entrance: `page-fade-in` only (no `transform` on page roots).
+6. Use `Input` / `Field` components — do not add `.profile-input` or `.create-input` aliases.
 
-## ۶. موشن (Motion)
+## Tailwind
 
-حرکت = آرامش، نه هیجان.
+Tailwind v4 is imported in `globals.css` (`@import "tailwindcss"`). **Keep it** — legacy Vita health pages (`/today`, `/diet`, `/chat`, etc.) still use Tailwind utility classes.
 
-| متغیر | مقدار | کاربرد |
-|-------|--------|--------|
-| `--ease-default` | `cubic-bezier(0.4, 0, 0.2, 1)` | اکثر انیمیشن‌ها |
-| `--duration-fast` | 120ms | hover، focus |
-| `--duration-normal` | 200ms | transition معمولی |
-| `--duration-slow` | 320ms | progress، صفحه‌بندی |
-
-**انیمیشن‌های مجاز:** Fade، Slide up ۸–۱۲px، Scale 0.98 → 1 (مثلاً دکمه).
-
----
-
-## ۷. کامپوننت (Component Tokens)
-
-| متغیر | مقدار | کاربرد |
-|-------|--------|--------|
-| `--button-height` | 56px | ارتفاع دکمه اصلی |
-| `--button-radius` | 16px | شعاع دکمه |
-| `--button-font-size` | 16px | سایز متن دکمه |
-| `--input-height` | 56px | ارتفاع اینپوت |
-| `--input-radius` | 16px | شعاع اینپوت |
-| `--input-border` | `var(--color-border-default)` | حاشیه عادی |
-| `--input-border-focus` | `var(--color-brand-primary)` | حاشیه focus |
-| `--card-padding` | 16px | padding کارت انتخاب |
-| `--card-gap` | 12px | فاصله بین آیتم‌ها |
-| `--card-selected-bg` | `#E8F7F1` | پس‌زمینه انتخاب‌شده |
-| `--card-selected-border` | `#0FA36B` | حاشیه انتخاب‌شده |
-
----
-
-## ۸. خلاصه کلاس‌های پرکاربرد Tailwind
-
-| منظور | کلاس |
-|--------|------|
-| پس‌زمینه صفحه | `bg-surface-secondary` |
-| کارت / باکس سفید | `bg-surface` |
-| پس‌زمینه انتخاب / پیام مربی | `bg-primary-soft` |
-| دکمه اصلی | `bg-primary text-white rounded-lg` |
-| عنوان | `text-ink font-semibold` |
-| توضیح | `text-ink-muted` |
-| hint / meta | `text-ink-subtle` |
-| حاشیه | `border-border` |
-| کارت انتخاب‌شده | `border-primary bg-primary-soft` |
-| دکمه غیرفعال | `bg-disabled text-disabled-text` |
-| کارت با سایه | `rounded-xl border border-border bg-surface shadow-md` |
-
----
-
-## ۹. قوانین لحن (Tone Rules)
-
-- ❌ قرمز زیاد = ممنوع  
-- ❌ Progress bar تهاجمی = ممنوع  
-- ✅ فضای خالی = ارزش  
-- ✅ یک CTA اصلی در هر صفحه  
-- ✅ هیچ چیز نباید فریاد بزند  
-
-VitaLife نباید شبیه اپ فیتنس باشد؛ باید شبیه یک نفر آرام، بالغ و قابل اعتماد باشد که کنارت نشسته، نه بالای سرت.
-
----
-
-*آخرین به‌روزرسانی: مطابق با `src/app/globals.css` و کامپوننت‌های فعلی.*
+**Poker pages** use the token-based CSS system above (`.panel`, `.btn`, `.ui-input`, etc.). Do not mix Tailwind utilities into poker UI unless migrating that page fully.

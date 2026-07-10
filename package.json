@@ -1,27 +1,44 @@
 {
-  "name": "vitalife2",
+  "name": "poker-pwa",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "build:server": "esbuild server.ts --bundle --platform=node --format=cjs --outfile=.server/server.cjs --packages=external",
+    "dev": "npm run build:server && node .server/server.cjs",
+    "build": "next build && npm run build:server",
+    "start": "NODE_ENV=production node .server/server.cjs",
+    "lint": "eslint",
+    "db:migrate": "tsx db/migrate.ts",
+    "db:seed": "tsx db/seed.ts",
+    "test": "node --import tsx --test src/lib/poker/*.test.ts src/lib/tournament/*.test.ts src/lib/profile/*.test.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@fontsource-variable/vazirmatn": "^5.2.8",
+    "bcryptjs": "^2.4.3",
+    "jose": "^5.9.6",
     "next": "16.1.6",
+    "pg": "^8.13.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
+    "@types/pg": "^8.11.10",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "^0.28.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "pokersolver": "^2.1.4",
     "tailwindcss": "^4",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }
