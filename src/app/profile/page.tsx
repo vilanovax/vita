@@ -253,8 +253,8 @@ export default function ProfilePage() {
         </div>
 
         <div className="ui-field">
-          <div className="ui-label">
-            <span>ایموت‌های سریع</span>
+          <div className="ui-label-row">
+            <span className="ui-label">ایموت‌های سریع</span>
             <span className="ui-counter">{p.emotes.length.toLocaleString("fa")}/{MAX_EMOTES.toLocaleString("fa")}</span>
           </div>
           <div className="profile-emote-grid">

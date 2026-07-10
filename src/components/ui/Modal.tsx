@@ -11,8 +11,21 @@ interface ModalProps {
   className?: string;
 }
 
-const FOCUSABLE =
-  'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+const FOCUSABLE = "a[href], button, textarea, input, select, [tabindex]";
+
+/** Elements inside `root` that are actually reachable by Tab, in DOM order.
+ *  We read the resolved `tabIndex` property (not the attribute selector) so any
+ *  negative value — `-1`, `-2`, … — is excluded, and disabled/hidden controls
+ *  are dropped. Our dialogs don't use positive tabindex or radio groups, so DOM
+ *  order matches the browser's tab order here. */
+function tabbable(root: HTMLElement): HTMLElement[] {
+  return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+    (el) =>
+      el.tabIndex >= 0 &&
+      !el.hasAttribute("disabled") &&
+      (el.offsetParent !== null || el === document.activeElement),
+  );
+}
 
 export function Modal({ title, subtitle, onClose, children, titleId = "modal-title", className = "" }: ModalProps) {
   useModalLock(onClose);
@@ -25,20 +38,20 @@ export function Modal({ title, subtitle, onClose, children, titleId = "modal-tit
     const card = cardRef.current;
     if (!card) return;
     const prevFocus = document.activeElement as HTMLElement | null;
-    const first = card.querySelector<HTMLElement>(FOCUSABLE);
-    (first ?? card).focus();
+    (tabbable(card)[0] ?? card).focus();
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
-      const items = Array.from(card.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
-        (el) => el.offsetParent !== null || el === document.activeElement,
-      );
-      if (items.length === 0) { e.preventDefault(); return; }
-      const firstEl = items[0];
-      const lastEl = items[items.length - 1];
-      const active = document.activeElement;
-      if (e.shiftKey && active === firstEl) { e.preventDefault(); lastEl.focus(); }
-      else if (!e.shiftKey && active === lastEl) { e.preventDefault(); firstEl.focus(); }
+      // Take over Tab entirely and move focus ourselves, so it can never land on
+      // a background control — cheaper and more reliable than only intercepting
+      // at the computed first/last boundary.
+      const items = tabbable(card);
+      e.preventDefault();
+      if (items.length === 0) return;
+      const idx = items.indexOf(document.activeElement as HTMLElement);
+      const delta = e.shiftKey ? -1 : 1;
+      const next = (idx + delta + items.length) % items.length;
+      items[idx === -1 && e.shiftKey ? items.length - 1 : next].focus();
     };
     card.addEventListener("keydown", onKey);
     return () => {
