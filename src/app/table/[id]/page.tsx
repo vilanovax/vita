@@ -406,21 +406,29 @@ function ChatPanel({ log, myId, muteAll, mutedUsers, emotes, onToggleMuteAll, on
 
   return (
     <div className={`panel chat-panel${collapsed ? " chat-panel--collapsed" : ""}`}>
-      <div
-        className="chat-panel-head"
-        onClick={isMobile ? () => setMobileOpen((o) => !o) : undefined}
-        onKeyDown={isMobile ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setMobileOpen((o) => !o); } } : undefined}
-        role={isMobile ? "button" : undefined}
-        tabIndex={isMobile ? 0 : undefined}
-        aria-expanded={isMobile ? !collapsed : undefined}
-      >
-        <span className="chat-panel-title chat-panel-toggle">
-          {collapsed ? "💬 گفتگو و رویدادها" : "گفتگو و رویدادها"}
-        </span>
+      <div className="chat-panel-head">
+        {/* The panel toggle and the mute control are separate buttons so we
+            never nest one interactive element inside another. On desktop the
+            title is a plain label; on mobile it becomes the expand/collapse
+            button for the whole panel. */}
+        {isMobile ? (
+          <button
+            type="button"
+            className="chat-panel-title chat-panel-toggle"
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-expanded={!collapsed}
+          >
+            {collapsed ? "💬 گفتگو و رویدادها" : "گفتگو و رویدادها"}
+          </button>
+        ) : (
+          <span className="chat-panel-title chat-panel-toggle">گفتگو و رویدادها</span>
+        )}
         <button
           type="button"
-          onClick={(e) => { e.stopPropagation(); onToggleMuteAll(); }}
+          onClick={onToggleMuteAll}
           className="btn btn-ghost chat-panel-mute"
+          aria-label={muteAll ? "باز کردن صدای چت" : "بستن صدای همه"}
+          aria-pressed={muteAll}
         >
           {muteAll ? (isMobile ? "🔕" : "🔕 صدای همه بسته") : (isMobile ? "🔔" : "🔔 صدای چت باز")}
         </button>

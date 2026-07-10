@@ -15,10 +15,17 @@ export default function LoginPage() {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    fetchMe().then((u) => {
-      if (u) router.replace("/");
-      else setChecking(false);
-    });
+    let alive = true;
+    fetchMe()
+      .then((u) => {
+        if (!alive) return;
+        if (u) router.replace("/");
+        else setChecking(false);
+      })
+      // A failed session check (offline, 5xx) must not strand the user on the
+      // loading screen — fall through to the login form so they can retry.
+      .catch(() => { if (alive) setChecking(false); });
+    return () => { alive = false; };
   }, [router]);
 
   async function submit(e: React.FormEvent) {

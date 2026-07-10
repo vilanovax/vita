@@ -5,6 +5,10 @@ on:
     branches: [main, "claude/**"]
   pull_request:
 
+# CI only reads the repo; deny everything else by default.
+permissions:
+  contents: read
+
 jobs:
   unit:
     runs-on: ubuntu-latest

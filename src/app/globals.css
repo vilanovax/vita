@@ -191,12 +191,15 @@ select {
   margin-bottom: 0;
 }
 
-.ui-label {
+.ui-label-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
   margin-bottom: 0.4rem;
+}
+
+.ui-label {
   font-size: var(--text-sm);
   font-weight: 600;
   color: var(--muted);
@@ -426,6 +429,8 @@ select {
 .table-community {
   display: flex;
   gap: 0.3rem;
+  /* Board cards read left-to-right regardless of the RTL page direction. */
+  direction: ltr;
 }
 
 .table-card-slot {
@@ -548,6 +553,16 @@ select {
 .chat-panel-title {
   font-size: var(--text-xs);
   color: var(--muted);
+}
+
+/* On mobile the title is a <button> that toggles the panel; strip the native
+   button chrome so it matches the plain-label look on desktop. */
+button.chat-panel-toggle {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 }
 
 .chat-panel-mute {
@@ -1044,6 +1059,8 @@ select {
   gap: 3px;
   margin-bottom: 3px;
   min-height: 48px;
+  /* Hole cards keep their natural left-to-right order under the RTL page. */
+  direction: ltr;
 }
 
 .seat-panel {
@@ -1913,12 +1930,20 @@ select {
 @media (prefers-reduced-motion: reduce) {
   .lobby,
   .table-card,
-  .lobby-spinner {
+  .lobby-spinner,
+  .table-shell {
     animation: none;
     transition: none;
   }
   .table-card:hover {
     transform: none;
+  }
+  /* The full-screen all-in flash is a pure motion effect that, without its
+     fade-out animation, would stay pinned over the whole viewport. Hide it
+     entirely — the all-in is still conveyed by the sound and the "⚡" line in
+     the chat/event log. */
+  .allin-flash {
+    display: none;
   }
 }
 

@@ -10,10 +10,12 @@ interface FieldProps {
 export function Field({ label, htmlFor, counter, children }: FieldProps) {
   return (
     <div className="ui-field">
-      <label className="ui-label" htmlFor={htmlFor}>
-        <span>{label}</span>
-        {counter && <span className="ui-counter">{counter}</span>}
-      </label>
+      {/* The counter sits in the row but outside <label>, so it isn't read as
+          part of the field's accessible name. */}
+      <div className="ui-label-row">
+        <label className="ui-label" htmlFor={htmlFor}>{label}</label>
+        {counter && <span className="ui-counter" aria-hidden>{counter}</span>}
+      </div>
       {children}
     </div>
   );

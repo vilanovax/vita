@@ -303,7 +303,7 @@ function TournamentsSection({
               </div>
 
               <div className="tournament-actions">
-                {(t.status === "scheduled" || t.status === "running" || t.status === "finished") && (
+                {(t.status === "scheduled" || t.status === "running" || t.status === "finishing" || t.status === "finished") && (
                   <Link href={`/tournament/${t.id}`} className="btn btn-ghost" style={{ fontSize: 12 }}>
                     جزئیات
                   </Link>
